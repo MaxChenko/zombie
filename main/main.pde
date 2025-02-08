@@ -1,22 +1,21 @@
 
 ArrayList<Item> items;
-int spawnInterval = 300; // Spawn every 300 frames (5 seconds at 60 FPS)
+Player player;
+int spawnInterval = 300;
 int frameCounter = 1;
 
 void setup() {
   size(800, 600);
-  playerX = width / 2;
-  playerY = height / 2;
   items = new ArrayList<Item>();
+  player = new Player(500,500);
 }
 
 void draw() {
   background(50);
   
-  movePlayer();
-  drawPlayer();
+  player.move();
+  player.display();
 
-  // Spawn a new item every spawnInterval frames
   if (frameCounter % spawnInterval == 0) {
     items.add(new Item());
   }
@@ -25,5 +24,6 @@ void draw() {
   // Display all items
   for (Item item : items) {
     item.display();
+    player.pickupItem(item);
   }
 }
