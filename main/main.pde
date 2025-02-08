@@ -4,11 +4,17 @@ ArrayList<Zombie> zombies;
 Player player;
 int spawnInterval = 300;
 int frameCounter = 1;
+int minX, maxX, minY, maxY;
 
 void setup() {
   size(800, 600);
   items = new ArrayList<Item>();
   player = new Player(500,500);
+
+  minX = -width;
+  maxX = width*2;
+  minY = -height;
+  maxY = height*2;
 
   zombies = new ArrayList<Zombie>();
   zombies.add(new Zombie(100, 100)); // Spawn a zombie
@@ -32,9 +38,13 @@ void draw() {
   frameCounter++;
 
   // Display all items
-  for (Item item : items) {
+  for (int i = items.size() - 1; i >= 0; i--) {
+    Item item = items.get(i);
     item.display();
-    player.pickupItem(item);
+    boolean pickedUp = player.pickupItem(item);
+    if (pickedUp) {
+      items.remove(i);  // Remove the item from the list
+    }
   }
 
   // Update and draw zombies
@@ -48,8 +58,8 @@ void draw() {
 void drawBackgroundGrid() {
   int gridSize = 40; // Size of each grid square
   
-  for (int x = -width; x < width * 2; x += gridSize) {
-    for (int y = -height; y < height * 2; y += gridSize) {
+  for (int x = minX; x < maxX; x += gridSize) {
+    for (int y = minY; y < maxY; y += gridSize) {
       float noiseValue = noise((x + player.x) * 0.01, (y + player.y) * 0.01);
       float brightness = map(noiseValue, 0, 1, 100, 200);
       
@@ -61,7 +71,7 @@ void drawBackgroundGrid() {
 }
 
 void displayCoinCount() {
-  fill(0);
+  fill(255);
   textSize(20);
   textAlign(LEFT, TOP);
   text("Coins: " + player.coins, player.x + 10 - width/2, player.y + 10 - height/2); // Display above the player

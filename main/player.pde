@@ -65,6 +65,11 @@ class Player extends Collider {
 
     // Reset dash cooldown
     if (!canDash && !moving) canDash = true;
+
+    x = max(x, minX);
+    x = min(x, maxX);
+    y = max(y, minY);
+    y = min(y, maxY);
   }
 
   void startDash() {
@@ -104,20 +109,22 @@ class Player extends Collider {
     return (abs(x - other.x) < size && abs(y - other.y) < size);
   }
 
-  void pickupItem(Item item) {
+  // Returns false if item is picked up
+  boolean pickupItem(Item item) {
     if (checkCollision(item)) {
       if (item.type == 0) {
         // Collect coins
         coins += item.value; 
         println("Picked up coin");
-        item.x = -1000; // Move item offscreen
+        return true;
       } else if (coins >= item.value) {
         // Buy weapon
         coins -= item.value;
         println("Picked up weapon (Value: "+item.value+")");
-        item.x = -1000; // Move item offscreen
+        return true;
       }
     }
+    return false;
   }
 }
 
