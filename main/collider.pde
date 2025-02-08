@@ -17,7 +17,6 @@ class CircleCollider extends Collider {
     this.radius = radius;
   }
   
-  @Override
   boolean checkCollision(Collider other) {
     if (other instanceof CircleCollider) {
       return circleCircleCollision(this, (CircleCollider) other);
@@ -55,7 +54,6 @@ class SquareCollider extends Collider {
     this.size = size;
   }
   
-  @Override
   boolean checkCollision(Collider other) {
     if (other instanceof SquareCollider) {
       return squareSquareCollision(this, (SquareCollider) other);
