@@ -10,8 +10,9 @@ class Player extends Collider {
   // Dash variables
   boolean dashing = false;
   float dashSpeed = 5;
-  int dashDuration = 5; // Dash lasts for 10 frames
+  int dashDuration = 10; // Dash lasts for 10 frames
   int dashTimer = 0;
+  int cooldownTimer = 1; //dash timer
   boolean canDash = true; // Prevents dash spamming
   
   Player(float x, float y) {
@@ -70,7 +71,7 @@ class Player extends Collider {
     if (!canDash || !moving) return; // No dash if not allowed or standing still
 
     dashing = true;
-    dashTimer = dashDuration;
+    dashTimer = cooldownTimer;
   }
   
   void display() {
