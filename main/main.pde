@@ -61,7 +61,7 @@ void drawBackgroundGrid() {
 }
 
 void displayCoinCount() {
-  fill(255, 223, 0);
+  fill(0);
   textSize(20);
   textAlign(LEFT, TOP);
   text("Coins: " + player.coins, player.x + 10 - width/2, player.y + 10 - height/2); // Display above the player
