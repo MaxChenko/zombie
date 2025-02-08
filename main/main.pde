@@ -1,8 +1,13 @@
 
 void setup() {
-    size(1000, 1000);
+  size(800, 600);
+  playerX = width / 2;
+  playerY = height / 2;
 }
 
 void draw() {
-    
+  background(50);
+  
+  movePlayer();
+  drawPlayer();
 }

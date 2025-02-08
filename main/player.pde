@@ -1,5 +1,7 @@
 int playerX, playerY;
 int playerSpeed = 4;
+boolean moving = false;
+float legOffset = 0;  // Controls leg movement animation
 
 
 void movePlayer() {
