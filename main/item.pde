@@ -1,11 +1,12 @@
-class Item extends Collider {
+class Item extends CircleCollider {
   int type; // 0 for coin, 1 for weapon
+  int weaponType;
   int value; // Coins give points, weapons have a cost
   color itemColor;
   float size = 20; // Collider size
 
   Item(float playerX, float playerY) {
-    super(random(playerX-400, playerX+400), random(playerY-400, playerY+400));
+    super(random(playerX-400, playerX+400), random(playerY-400, playerY+400),15);
     int randomVal = int(random(9)); 
     // 7/10 chance of spawning gold
     if (randomVal < 7) {

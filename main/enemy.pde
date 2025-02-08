@@ -1,11 +1,15 @@
-abstract class Enemy {
-  float x, y;
+abstract class Enemy extends CircleCollider {
+  int health = 10;
   float speed;
+  float size =4;
   
   Enemy(float x, float y, float speed) {
-    this.x = x;
-    this.y = y;
+    super(x, y,25);
     this.speed = speed;
+  }
+
+  void dealDamage(int amount){
+    health -= amount;
   }
 
 void moveTowards(int targetX, int targetY) {

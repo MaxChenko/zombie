@@ -22,6 +22,7 @@ void draw() {
   drawBackgroundGrid();
   player.move();
   player.display();
+  updateBullets();
 
   if (frameCounter % spawnInterval == 0) {
     items.add(new Item(player.x, player.y));
@@ -36,7 +37,7 @@ void draw() {
 
   // Update and draw zombies
   for (Zombie z : zombies) {
-    z.update(player.getX(), player.getY());
+    z.update((int)player.x, (int)player.y);
     z.display();
   }
 }
@@ -55,4 +56,26 @@ void drawBackgroundGrid() {
       rect(x, y, gridSize, gridSize);
     }
   }
+}
+
+void mousePressed() {
+  player.shoot(mouseX, mouseY);
+}
+
+// Update loop for bullets
+void updateBullets() {
+
+for (int i = player.bullets.size() - 1; i >= 0; i--) {
+  player.bullets.get(i).display();
+  player.bullets.get(i).move();
+
+
+    // for (Zombie zombie : zombies) {
+    //     if (player.bullets.get(i).checkCollision(zombie)) {
+    //         zombie.dealDamage(player.bullets.get(i).damage);
+    //         player.bullets.remove(i); // Correct method to remove an element
+    //         break; // Exit the inner loop to avoid checking against already removed bullet
+    //     }
+    // }
+}
 }
