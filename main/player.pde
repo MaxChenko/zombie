@@ -12,12 +12,16 @@ class Player extends CircleCollider {
   float dashSpeed = 5;
   int dashDuration = 10;
   int dashTimer = 0;
-  int cooldownTimer = 1;
-  boolean canDash = true;
 
   int weapon = 0; // Default weapon
   ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
+  public int cooldownTimer = 1; //dash timer
+  boolean canDash = true; // Prevents dash spamming
+
+  public int playerMaxHealth = 100;
+  public int currentHealth = 100;
+  
   Player(float x, float y) {
     super(x, y,20);
   }
@@ -56,6 +60,11 @@ class Player extends CircleCollider {
     legOffset = moving ? sin(frameCount * 0.2) * 5 : 0;
 
     if (!canDash && !moving) canDash = true;
+
+    x = max(x, minX);
+    x = min(x, maxX);
+    y = max(y, minY);
+    y = min(y, maxY);
   }
 
   void startDash() {
@@ -108,20 +117,54 @@ class Player extends CircleCollider {
     return (abs(x - other.x) < size && abs(y - other.y) < size);
   }
 
-  void pickupItem(Item item) {
+  // Returns false if item is picked up
+  boolean pickupItem(Item item) {
     if (checkCollision(item)) {
       if (item.type == 0) {
         coins += item.value; 
         println("Picked up coin");
-        item.x = -1000;
+        return true;
       } else if (coins >= item.value) {
         coins -= item.value;
         println("Picked up weapon (Value: "+item.value+")");
-        weapon = 1; // Set to shotgun for testing
-        item.x = -1000;
+        return true;
       }
     }
+    return false;
   }
+
+  
+// Health Bar with Curve
+public void drawHealthBar() {
+  fill(50);
+  rect(x - 100, y - 80, 150, 50, 25); // Background bar
+  
+  fill(255, 0, 0);
+  rect(x - 100, y - 80, 150 * player.playerMaxHealth / (float) player.playerMaxHealth, 50, 25); // Health bar
+  
+  fill(255);
+  textSize(16);
+  textAlign(CENTER, CENTER);
+  text(int((player.playerMaxHealth / (float) player.playerMaxHealth) * 100) + "%", (x - 100) + 150 / 2, (y - 80) + 50 / 2);
+}
+
+// Cooldown Timer (Circle Fill)
+public void drawCooldownTimer() {
+  fill(80);
+  ellipse(x-150, y-80, 60, 60); // Background circle
+  
+  fill(0, 150, 255, 150);
+  arc(x-150, y-80, 60, 60, -HALF_PI, -HALF_PI + TWO_PI * player.cooldownTimer, PIE);
+  
+  fill(255);
+  textSize(14);
+  textAlign(CENTER, CENTER);
+  if (!player.canDash) {
+    text(nf((player.cooldownTimer * (1 - player.cooldownTimer)), 0, 1) + "s", width - 150, height - 80);
+  } else {
+    text("Ready", x - 150, y - 80);
+  }
+}
 }
 
 // Handle key press
@@ -131,6 +174,13 @@ void keyPressed() {
   if (key == 'a' || key == 'A') player.left = true;
   if (key == 'd' || key == 'D') player.right = true;
   if (key == ' ' && !player.dashing) player.startDash();
+
+  if (key == 'd' || key == 'D') {
+    player.currentHealth = max(0, player.currentHealth - 10);
+  }
+  if (key == 'h' || key == 'H') {
+    player.currentHealth = min(player.playerMaxHealth, player.currentHealth + 10);
+  }
 }
 
 // Handle key release

@@ -7,6 +7,9 @@ class Item extends CircleCollider {
 
   Item(float playerX, float playerY) {
     super(random(playerX-400, playerX+400), random(playerY-400, playerY+400),15);
+    x = getX(playerX);
+    y = getY(playerY);
+
     int randomVal = int(random(9)); 
     // 7/10 chance of spawning gold
     if (randomVal < 7) {
@@ -18,6 +21,18 @@ class Item extends CircleCollider {
       value = int(random(5, 15)); // Weapons cost 5-14 coins
       itemColor = color(150, 0, 0); // Red
     }
+  }
+
+  private float getX(float playerX) {
+    float min = max(playerX-width/2, minX);
+    float max = min(playerX+width/2, maxX);
+    return random(min, max);
+  }
+
+  private float getY(float playerY) {
+    float min = max(playerY-height/2, minY);
+    float max = min(playerY+height/2, maxY);
+    return random(min, max);
   }
 
   void display() {
