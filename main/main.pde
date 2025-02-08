@@ -18,6 +18,8 @@ void setup() {
 void draw() {
   background(50);
   
+  translate(width / 2 - player.x, height / 2 - player.y);
+  drawBackgroundGrid();
   player.move();
   player.display();
 
@@ -36,5 +38,21 @@ void draw() {
   for (Zombie z : zombies) {
     //?????/z.update(player.getX(), playerY.getY());
     z.display();
+  }
+}
+
+
+void drawBackgroundGrid() {
+  int gridSize = 40; // Size of each grid square
+  
+  for (int x = -width; x < width * 2; x += gridSize) {
+    for (int y = -height; y < height * 2; y += gridSize) {
+      float noiseValue = noise((x + player.x) * 0.01, (y + player.y) * 0.01);
+      float brightness = map(noiseValue, 0, 1, 100, 200);
+      
+      fill(brightness, 180, 120); // Brownish ground color
+      stroke(80, 50, 30); // Grid lines
+      rect(x, y, gridSize, gridSize);
+    }
   }
 }
