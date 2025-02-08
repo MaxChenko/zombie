@@ -10,11 +10,17 @@ class Item extends CircleCollider {
     x = getX(playerX);
     y = getY(playerY);
 
-    int randomVal = int(random(9)); 
-    // 7/10 chance of spawning gold
-    if (randomVal < 7) {
+    int randomVal = int(random(1, 11)); 
+    // 8/10 chance of spawning gold
+    if (randomVal <= 8) {
       type = 0;
-      value = 1; 
+      randomVal = int(random(1, 11));
+      // 9/10 chance of getting 1 coins, 1/10 chance of getting 2 coins
+      if (randomVal <= 9) {
+        value = 1;
+      } else {
+        value = 2; 
+      }
       itemColor = color(255, 223, 0); // Gold
     } else {
       type = 1;
@@ -36,6 +42,7 @@ class Item extends CircleCollider {
   }
 
   void display() {
+    textSize(20);
     fill(itemColor);
     ellipse(x, y, size, size);
     if (type == 1) { // If it's a weapon
