@@ -9,6 +9,14 @@ class Player extends Collider {
   Player(float x, float y) {
     super(x, y);
   }
+
+  public int getX(){
+      return this.playerX;
+  }
+
+  public int getY(){
+      return this.playerY;
+  }
   
   void move() {
     moving = false;
@@ -56,7 +64,6 @@ class Player extends Collider {
   }
   
   // Collision detection with another Collider
-  @Override
   boolean checkCollision(Collider other) {
     if (other instanceof Player) return false; // Ignore self-collision
     return (abs(x - other.x) < size && abs(y - other.y) < size);

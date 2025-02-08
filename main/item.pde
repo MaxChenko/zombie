@@ -23,7 +23,6 @@ class Item extends Collider {
   }
 
   // Collision detection with another Collider (e.g., Player)
-  @Override
   boolean checkCollision(Collider other) {
     float distance = dist(x, y, other.x, other.y);
     return distance < size / 2 + 10; // Assumes player has size ~20
