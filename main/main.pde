@@ -36,7 +36,7 @@ void draw() {
 
   // Update and draw zombies
   for (Zombie z : zombies) {
-    //?????/z.update(player.getX(), playerY.getY());
+    z.update(player.getX(), player.getY());
     z.display();
   }
 }

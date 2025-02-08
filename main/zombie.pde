@@ -5,7 +5,7 @@ class Zombie extends Enemy {
     super(x, y, 1.5); // Zombies move at speed 1.5
   }
 
-  void update(float playerX, float playerY) {
+  void update(int playerX, int playerY) {
     moveTowards(playerX, playerY);
     frameCount++; // Update animation
   }

@@ -8,17 +8,23 @@ abstract class Enemy {
     this.speed = speed;
   }
 
-  void moveTowards(float targetX, float targetY) {
+void moveTowards(int targetX, int targetY) {
     float dx = targetX - x;
     float dy = targetY - y;
-    float distance = dist(x, y, targetX, targetY);
 
-    if (distance > 1) { // Prevent jittering when very close
-      x += (dx / distance) * speed;
-      y += (dy / distance) * speed;
+    if (abs(dx) > 0 && abs(dy) > 0) { 
+        // Move diagonally if both X and Y are different
+        x += (dx > 0) ? speed : -speed;
+        y += (dy > 0) ? speed : -speed;
+    } else if (abs(dx) > 0) {
+        // Move only horizontally
+        x += (dx > 0) ? speed : -speed;
+    } else if (abs(dy) > 0) {
+        // Move only vertically
+        y += (dy > 0) ? speed : -speed;
     }
-  }
+}
 
-  abstract void update(float playerX, float playerY);
+  abstract void update(int playerX, int playerY);
   abstract void display();
 }

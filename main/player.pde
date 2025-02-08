@@ -11,11 +11,11 @@ class Player extends Collider {
   }
 
   public int getX(){
-      return this.playerX;
+      return (int)this.x;
   }
 
   public int getY(){
-      return this.playerY;
+      return (int)this.x;
   }
   
   void move() {
