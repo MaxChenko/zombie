@@ -29,9 +29,6 @@ void draw() {
   player.move();
   player.display();
 
-  // Display the player's coins in the top-left corner
-  displayCoinCount();
-
   if (frameCounter % spawnInterval == 0) {
     items.add(new Item(player.x, player.y));
   }
@@ -52,6 +49,9 @@ void draw() {
     z.update(player.getX(), player.getY());
     z.display();
   }
+
+  // Display the player's coins in the top-left corner
+  displayCoinCount();
 }
 
 
