@@ -84,15 +84,24 @@ for (int i = player.bullets.size() - 1; i >= 0; i--) {
   player.bullets.get(i).move();
 
 
-    for (Zombie zombie : zombies) {
+    for (int j = zombies.size() - 1; j >= 0; j--) {
+            Zombie zombie = zombies.get(j);
+        if (zombie.health > 0 ) {
+
         if (player.bullets.get(i).checkCollision(zombie)) {
             zombie.dealDamage(player.bullets.get(i).damage);
             player.bullets.remove(i); // Correct method to remove an element
-            break; // Exit the inner loop to avoid checking against already removed bullet
+            break;
+        }
+        }else{
+          zombies.remove(j);
+        }
+
+
         }
     }
 }
-}
+
 void displayCoinCount() {
   fill(255);
   textSize(20);
