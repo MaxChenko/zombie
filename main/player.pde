@@ -4,7 +4,7 @@ class Player extends Collider {
   boolean up, down, left, right;
   boolean moving = false;
   float legOffset = 0;
-  int moveX,moveY,playerX,playerY;
+  int moveX,moveY;
   
   Player(float x, float y) {
     super(x, y);
