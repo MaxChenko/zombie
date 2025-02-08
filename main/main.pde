@@ -23,6 +23,9 @@ void draw() {
   player.move();
   player.display();
 
+  // Display the player's coins in the top-left corner
+  displayCoinCount();
+
   if (frameCounter % spawnInterval == 0) {
     items.add(new Item(player.x, player.y));
   }
@@ -55,4 +58,11 @@ void drawBackgroundGrid() {
       rect(x, y, gridSize, gridSize);
     }
   }
+}
+
+void displayCoinCount() {
+  fill(255, 223, 0);
+  textSize(20);
+  textAlign(LEFT, TOP);
+  text("Coins: " + player.coins, player.x + 10 - width/2, player.y + 10 - height/2); // Display above the player
 }
