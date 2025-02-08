@@ -24,7 +24,7 @@ void draw() {
   player.display();
 
   if (frameCounter % spawnInterval == 0) {
-    items.add(new Item());
+    items.add(new Item(player.x, player.y));
   }
   frameCounter++;
 

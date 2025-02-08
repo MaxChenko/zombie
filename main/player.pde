@@ -5,6 +5,7 @@ class Player extends Collider {
   boolean moving = false;
   float legOffset = 0;
   float moveX,moveY;
+  int coins = 0;
 
   // Dash variables
   boolean dashing = false;
@@ -105,10 +106,16 @@ class Player extends Collider {
   void pickupItem(Item item) {
     if (checkCollision(item)) {
       if (item.type == 0) {
-        //score += item.value; // Add coin value to score
+        // Collect coins
+        coins += item.value; 
+        println("Picked up coin");
+        item.x = -1000; // Move item offscreen
+      } else if (coins >= item.value) {
+        // Buy weapon
+        coins -= item.value;
+        println("Picked up weapon (Value: "+item.value+")");
+        item.x = -1000; // Move item offscreen
       }
-      println("Picked up item: " + (item.type == 0 ? "Coin" : "Weapon") + " (Value: " + item.value + ")");
-      item.x = -1000; // Move item offscreen
     }
   }
 }

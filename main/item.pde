@@ -4,14 +4,16 @@ class Item extends Collider {
   color itemColor;
   float size = 20; // Collider size
 
-  Item() {
-    super(random(width), random(height));
-    type = int(random(2)); // 0 or 1
-    
-    if (type == 0) {
-      value = int(random(1, 5)); // Coins give 1-4 points
+  Item(float playerX, float playerY) {
+    super(random(playerX-400, playerX+400), random(playerY-400, playerY+400));
+    int randomVal = int(random(9)); 
+    // 7/10 chance of spawning gold
+    if (randomVal < 7) {
+      type = 0;
+      value = 1; 
       itemColor = color(255, 223, 0); // Gold
     } else {
+      type = 1;
       value = int(random(5, 15)); // Weapons cost 5-14 coins
       itemColor = color(150, 0, 0); // Red
     }
@@ -20,6 +22,11 @@ class Item extends Collider {
   void display() {
     fill(itemColor);
     ellipse(x, y, size, size);
+    if (type == 1) { // If it's a weapon
+        fill(255); // White text
+        textAlign(CENTER, CENTER);
+        text(value, x, y - size); // Display value slightly above the item
+    }
   }
 
   // Collision detection with another Collider (e.g., Player)
