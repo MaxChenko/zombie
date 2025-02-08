@@ -24,7 +24,7 @@ class Player extends Collider {
   }
 
   public int getY(){
-      return (int)this.x;
+      return (int)this.y;
   }
   
   void move() {
