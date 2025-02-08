@@ -189,3 +189,37 @@ public void drawCooldownTimer() {
     text("Ready", width - 150, height - 80);
   }
 }
+
+/*
+// Health Bar with Curve
+void drawHealthBar(float x, float y, float w, float h, float percent) {
+  fill(50);
+  rect(x, y, w, h, 25); // Background bar
+  
+  fill(255, 0, 0);
+  rect(x, y, w * percent, h, 25); // Health bar
+  
+  fill(255);
+  textSize(16);
+  textAlign(CENTER, CENTER);
+  text(int(percent * 100) + "%", x + w / 2, y + h / 2);
+}
+
+// Cooldown Timer (Circle Fill)
+void drawCooldownTimer(float x, float y, float radius, float percent) {
+  fill(80);
+  ellipse(x, y, radius, radius); // Background circle
+  
+  fill(0, 150, 255, 150);
+  arc(x, y, radius, radius, -HALF_PI, -HALF_PI + TWO_PI * percent, PIE);
+  
+  fill(255);
+  textSize(14);
+  textAlign(CENTER, CENTER);
+  if (isCooldown) {
+    text(nf((cooldownTime * (1 - percent)), 0, 1) + "s", x, y);
+  } else {
+    text("Ready", x, y);
+  }
+}
+*/
