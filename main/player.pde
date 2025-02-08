@@ -1,36 +1,48 @@
 int playerX, playerY;
 int playerSpeed = 4;
 boolean moving = false;
-float legOffset = 0;  // Controls leg movement animation
+float legOffset = 0;
 
+// Movement state
+boolean up, down, left, right;
 
 void movePlayer() {
-  moving = false; // Assume player is not moving
+  moving = false;
   
-  if (keyPressed) {
-    if (key == 'w' || key == 'W') {
-      playerY -= playerSpeed;
-      moving = true;
-    }
-    if (key == 's' || key == 'S') {
-      playerY += playerSpeed;
-      moving = true;
-    }
-    if (key == 'a' || key == 'A') {
-      playerX -= playerSpeed;
-      moving = true;
-    }
-    if (key == 'd' || key == 'D') {
-      playerX += playerSpeed;
-      moving = true;
-    }
+  float moveX = 0;
+  float moveY = 0;
+
+  if (up) {
+    moveY -= 1;
+    moving = true;
   }
-  
-  // Animate legs when moving
+  if (down) {
+    moveY += 1;
+    moving = true;
+  }
+  if (left) {
+    moveX -= 1;
+    moving = true;
+  }
+  if (right) {
+    moveX += 1;
+    moving = true;
+  }
+
+  // Normalize diagonal movement
+  float magnitude = sqrt(moveX * moveX + moveY * moveY);
+  if (magnitude > 0) {
+    moveX = (moveX / magnitude) * playerSpeed;
+    moveY = (moveY / magnitude) * playerSpeed;
+  }
+
+  playerX += moveX;
+  playerY += moveY;
+
   if (moving) {
-    legOffset = sin(frameCount * 0.2) * 5; // Oscillate leg positions
+    legOffset = sin(frameCount * 0.2) * 5; 
   } else {
-    legOffset = 0; // Stop moving legs when idle
+    legOffset = 0;
   }
 }
 
@@ -52,4 +64,20 @@ void drawPlayer() {
   rect(3, 10 - legOffset, 5, 10);  // Right leg
   
   popMatrix();
+}
+
+// Handle key press events
+void keyPressed() {
+  if (key == 'w' || key == 'W') up = true;
+  if (key == 's' || key == 'S') down = true;
+  if (key == 'a' || key == 'A') left = true;
+  if (key == 'd' || key == 'D') right = true;
+}
+
+// Handle key release events
+void keyReleased() {
+  if (key == 'w' || key == 'W') up = false;
+  if (key == 's' || key == 'S') down = false;
+  if (key == 'a' || key == 'A') left = false;
+  if (key == 'd' || key == 'D') right = false;
 }
