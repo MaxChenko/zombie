@@ -28,6 +28,8 @@ void draw() {
   drawBackgroundGrid();
   player.move();
   player.display();
+  drawHealthBar();
+  drawCooldownTimer();
 
   if (frameCounter % spawnInterval == 0) {
     items.add(new Item(player.x, player.y));
@@ -53,7 +55,6 @@ void draw() {
   // Display the player's coins in the top-left corner
   displayCoinCount();
 }
-
 
 void drawBackgroundGrid() {
   int gridSize = 40; // Size of each grid square

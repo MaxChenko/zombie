@@ -12,8 +12,11 @@ class Player extends Collider {
   float dashSpeed = 5;
   int dashDuration = 10; // Dash lasts for 10 frames
   int dashTimer = 0;
-  int cooldownTimer = 1; //dash timer
+  public int cooldownTimer = 1; //dash timer
   boolean canDash = true; // Prevents dash spamming
+
+  public int playerMaxHealth = 100;
+  public int currentHealth = 100;
   
   Player(float x, float y) {
     super(x, y);
@@ -135,6 +138,13 @@ void keyPressed() {
   if (key == 'a' || key == 'A') player.left = true;
   if (key == 'd' || key == 'D') player.right = true;
   if (key == ' ' && !player.dashing) player.startDash();
+
+  if (key == 'd' || key == 'D') {
+    player.currentHealth = max(0, player.currentHealth - 10);
+  }
+  if (key == 'h' || key == 'H') {
+    player.currentHealth = min(player.playerMaxHealth, player.currentHealth + 10);
+  }
 }
 
 // Handle key release
@@ -143,4 +153,39 @@ void keyReleased() {
   if (key == 's' || key == 'S') player.down = false;
   if (key == 'a' || key == 'A') player.left = false;
   if (key == 'd' || key == 'D') player.right = false;
+}
+
+  //drawHealthBar(100, height - 80, 150, 50, playerMaxHealth / (float) playerMaxHealth);
+  //drawCooldownTimer(width - 150, height - 80, 60, player.cooldownProgress);
+
+// Health Bar with Curve
+public void drawHealthBar() {
+  fill(50);
+  rect(100, height - 80, 150, 50, 25); // Background bar
+  
+  fill(255, 0, 0);
+  rect(100, height - 80, 150 * player.playerMaxHealth / (float) player.playerMaxHealth, 50, 25); // Health bar
+  
+  fill(255);
+  textSize(16);
+  textAlign(CENTER, CENTER);
+  text(int((player.playerMaxHealth / (float) player.playerMaxHealth) * 100) + "%", 100 + 150 / 2, (height - 80) + 50 / 2);
+}
+
+// Cooldown Timer (Circle Fill)
+public void drawCooldownTimer() {
+  fill(80);
+  ellipse(width-150, height-80, 60, 60); // Background circle
+  
+  fill(0, 150, 255, 150);
+  arc(width-150, height-80, 60, 60, -HALF_PI, -HALF_PI + TWO_PI * player.cooldownTimer, PIE);
+  
+  fill(255);
+  textSize(14);
+  textAlign(CENTER, CENTER);
+  if (!player.canDash) {
+    text(nf((player.cooldownTimer * (1 - player.cooldownTimer)), 0, 1) + "s", width - 150, height - 80);
+  } else {
+    text("Ready", width - 150, height - 80);
+  }
 }
