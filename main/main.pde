@@ -46,6 +46,7 @@ void draw() {
     background(50);
 
     player.handleShooting(); //we gotta update our shooting direction
+    spawnZombies(zombies);
     player.move();
     translate(width / 2 - player.x, height / 2 - player.y);
     drawBackgroundGrid();
@@ -145,6 +146,10 @@ void drawGameOverScreen() {
   text("Press 'R' to restart", width / 2, height / 2);
 }
 
+void spawnZombies(ArrayList<Zombie> zombiesPassed){
+  zombiesPassed.add(new Zombie((int)random(500), (int)random(500)));
+}
+
 void drawBackgroundGrid() {
   int gridSize = 40; // Size of each grid square
   
@@ -164,7 +169,7 @@ void damageCoolDownLogic(){
   if (damageCoolDownCounter != 0) {
     damageCoolDownCounter--;
   }
-  print("\nDamage Cooldown Counter: " + damageCoolDownCounter);
+ // print("\nDamage Cooldown Counter: " + damageCoolDownCounter);
 }
 
 // Logic for checking collision between bullets and zombies

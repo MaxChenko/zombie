@@ -122,26 +122,26 @@ class Player extends CircleCollider {
 }
 
 
-  // void display() {
-  //   pushMatrix();
-  //   translate(x, y);
+  void display() {
+    pushMatrix();
+    translate(x, y);
 
-  //   if (dashing) {
-  //     scale(1.5, 1);
-  //   }
+    if (dashing) {
+      scale(1.5, 1);
+    }
 
-  //   fill(0, 0, 255);
-  //   rect(-10, -15, 20, 25);
+    fill(0, 0, 255);
+    rect(-10, -15, 20, 25);
 
-  //   fill(255, 220, 180);
-  //   ellipse(0, -25, 15, 15);
+    fill(255, 220, 180);
+    ellipse(0, -25, 15, 15);
 
-  //   fill(0);
-  //   rect(-8, 10 + legOffset, 5, 10);
-  //   rect(3, 10 - legOffset, 5, 10);
+    fill(0);
+    rect(-8, 10 + legOffset, 5, 10);
+    rect(3, 10 - legOffset, 5, 10);
 
-  //   popMatrix();
-  // }
+    popMatrix();
+  }
 
   //bounce back if you runnin into a wall
   void checkWallCollision(ArrayList<Wall> walls) {

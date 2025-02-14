@@ -40,7 +40,7 @@ class CircleCollider extends Collider {
     return (distX * distX + distY * distY) <= (c.radius * c.radius);
   }
   
-  void display() {
+  void colliderDisplay() {
     fill(0, 0, 255, 150);
     ellipse(x, y, radius * 2, radius * 2);
   }
