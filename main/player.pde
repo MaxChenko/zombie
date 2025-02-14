@@ -100,7 +100,7 @@ class Player extends CircleCollider {
 //   if (shootRight) dirX = 1;
 
 //   if (dirX != 0 || dirY != 0) {
-//     shoot(dirX, dirY);
+//     
 //   }
 // }
 

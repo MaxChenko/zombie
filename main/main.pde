@@ -56,6 +56,8 @@ void draw() {
     player.drawHealthBar(width/2 - 10,-height/2 + width/8,width/4,width/8);
     player.drawCooldownTimer(-width/2 + width/16 + 10,-height/2 + width/16,width/8,width/8);
 
+    shootBullet();
+
     displayItems();
     displayZombies();
     displayCoinCount();
@@ -65,6 +67,25 @@ void draw() {
     }
     frameCounter++;
   }
+}
+
+void shootBullet(){
+  int dirx = 0;
+  int diry = 0;
+
+  if(player.shootUp){
+    diry = 1;
+  }else if(player.shootDown){
+    diry = -1;
+  }
+
+  if(player.shootLeft){
+    dirx = -1;
+  }else if(player.shootRight){
+    dirx = 1;
+  }
+
+  player.shoot(dirx,diry);
 }
 
 void keyPressed() {
