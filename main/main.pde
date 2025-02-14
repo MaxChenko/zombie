@@ -212,6 +212,7 @@ void baseCollisionLogic() {
 
   for (int i = 0; i < player.bullets.size() - 1; i++){
     player.bullets.get(i).display();
+        player.bullets.get(i).move();
       for (int j = 0; j < zombies.size() - 1; j++) {
         if(player.bullets.get(i).checkCollision(zombies.get(j))){
           zombies.get(j).dealDamage(player.bullets.get(i).damage);
