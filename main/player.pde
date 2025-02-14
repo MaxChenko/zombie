@@ -206,7 +206,6 @@ public void drawCooldownTimer(int cooldownX, int cooldownY, int width, int heigh
 }
 }
 
-<<<<<<< HEAD
 // Handle key press
 void keyPressed() {
   if (key == 'w' || key == 'W') player.up = true;
@@ -223,8 +222,6 @@ void keyPressed() {
 
 }
 
-=======
->>>>>>> 78cc461ab5c395078d35a03accd8171873003b8d
 // Handle key release
 void keyReleased() {
   if (key == 'w' || key == 'W') player.up = false;
