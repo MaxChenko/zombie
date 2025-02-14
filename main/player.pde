@@ -122,11 +122,10 @@ class Player extends CircleCollider {
     if (checkCollision(item)) {
       if (item.type == 0) {
         coins += item.value; 
-        println("Picked up coin");
         return true;
       } else if (coins >= item.value) {
         coins -= item.value;
-        println("Picked up weapon (Value: "+item.value+")");
+        weapon = item.weaponType;
         return true;
       }
     }
