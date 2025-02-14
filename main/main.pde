@@ -144,19 +144,6 @@ for (int i = player.bullets.size() - 1; i >= 0; i--) {
     }
 }
 
-void startCoinAnimation(Item item) {
-  if (item.type == 0) {
-    // Coin collected
-    coinAnimationText = "+"+item.value;  // Show "+x" when a coin is picked up
-    coinAnimationColor = color(255, 255, 0);
-  } else {
-    // Weapon bought
-    coinAnimationText = "-"+item.value;  // Show "-x" when a weapon is bought
-    coinAnimationColor = color(150, 0, 0);
-  }
-  coinAnimationY = 20;  // Set the starting position for the animation
-  coinAnimationFrame = 0;  // Reset the animation frame
-}
 
 void startCoinAnimation(Item item) {
   if (item.type == 0) {

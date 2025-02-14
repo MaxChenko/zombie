@@ -122,9 +122,9 @@ class Player extends CircleCollider {
 }
 
 
-  void display() {
-    pushMatrix();
-    translate(x, y);
+  // void display() {
+  //   pushMatrix();
+  //   translate(x, y);
 
   //   if (dashing) {
   //     scale(1.5, 1);
