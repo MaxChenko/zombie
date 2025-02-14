@@ -204,28 +204,6 @@ public void drawCooldownTimer(int cooldownX, int cooldownY, int width, int heigh
 }
 }
 
-// Handle key press
-void keyPressed() {
-  if (key == 'w' || key == 'W') player.up = true;
-  if (key == 's' || key == 'S') player.down = true;
-  if (key == 'a' || key == 'A') player.left = true;
-  if (key == 'd' || key == 'D') player.right = true;
-  if (key == ' ' && !player.dashing) player.startDash();
-
-  // Handle shooting with arrow keys
-  if (keyCode == UP) player.shootUp = true;
-  if (keyCode == DOWN) player.shootDown = true;
-  if (keyCode == LEFT) player.shootLeft = true;
-  if (keyCode == RIGHT) player.shootRight = true;
-
-  if (key == 'd' || key == 'D') {
-    player.currentHealth = max(0, player.currentHealth - 10);
-  }
-  if (key == 'h' || key == 'H') {
-    player.currentHealth = min(player.playerMaxHealth, player.currentHealth + 10);
-  }
-}
-
 // Handle key release
 void keyReleased() {
   if (key == 'w' || key == 'W') player.up = false;
