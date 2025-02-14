@@ -145,6 +145,18 @@ class Player extends CircleCollider {
     return (abs(x - other.x) < size && abs(y - other.y) < size);
   }
 
+  //bounce back if you runnin into a wall
+  void checkWallCollision(ArrayList<Wall> walls) {
+  for (Wall wall : walls) {
+    if (checkCollision(wall)) {
+      // Push back or prevent movement
+      x -= moveX;
+      y -= moveY;
+    }
+  }
+}
+
+
   // Returns false if item is picked up
   boolean pickupItem(Item item) {
     if (checkCollision(item)) {

@@ -12,6 +12,7 @@ float coinAnimationY = 0;  // Y position for the animation text
 int coinAnimationDuration = 30;  // Frames for which the animation lasts
 int coinAnimationFrame = 0;  // Frame counter for the animation
 color coinAnimationColor;
+ArrayList<Wall> walls;
 
 void setup() {
   size(800, 600);
@@ -26,6 +27,11 @@ void setup() {
   zombies = new ArrayList<Zombie>();
   zombies.add(new Zombie(100, 100)); // Spawn a zombie
   zombies.add(new Zombie(700, 500)); // Spawn another one
+
+  walls = new ArrayList<>();
+  walls.add(new Wall(100, 100, 50));
+  walls.add(new Wall(200, 200, 50));
+  walls.add(new Wall(300, 300, 50));
 }
 
 void draw() {
@@ -36,6 +42,9 @@ void draw() {
   drawBackgroundGrid();
   player.move();
   player.display();
+  for (Wall wall : walls) {
+    wall.display();
+  }
   updateBullets();
   player.drawHealthBar();
   player.drawCooldownTimer();
