@@ -12,9 +12,15 @@ class Player extends CircleCollider {
   float dashSpeed = 5;
   int dashDuration = 10;
   int dashTimer = 0;
+  
+  //set variable to hold shooting cooldown
+  float shootCooldown = 0;
 
   int weapon = 0; // Default weapon
   ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+
+  boolean shootUp, shootDown, shootLeft, shootRight;
+
 
   public int cooldownTimer = 1; //dash timer
   boolean canDash = true; // Prevents dash spamming
@@ -74,22 +80,44 @@ class Player extends CircleCollider {
     dashTimer = cooldownTimer;
   }
 
-  void shoot(float targetX, float targetY) {
-    if (weapon == 0) {
-      // Default single-shot
-      bullets.add(new Bullet(x, y, targetX, targetY, 10));
-    } else if (weapon == 1) {
-      // Shotgun: Fires multiple bullets
-      for (int i = -2; i <= 2; i++) {
-        float spreadX = targetX + i * 5;
-        float spreadY = targetY + i * 5;
-        bullets.add(new Bullet(x, y, spreadX, spreadY, 8));
-      }
-    } else if (weapon == 2) {
-      // Rapid-fire
-      bullets.add(new Bullet(x, y, targetX, targetY, 5));
-    }
+  void handleShooting() {
+  if (shootCooldown > 0) {
+    shootCooldown--; // Decrease cooldown each frame
+    return; // Prevent shooting while cooling down
   }
+
+  float dirX = 0;
+  float dirY = 0;
+
+  if (shootUp) dirY = -1;
+  if (shootDown) dirY = 1;
+  if (shootLeft) dirX = -1;
+  if (shootRight) dirX = 1;
+
+  if (dirX != 0 || dirY != 0) {
+    shoot(dirX, dirY);
+  }
+}
+
+
+  void shoot(float dirX, float dirY) {
+  if (dirX == 0 && dirY == 0) return; // Prevent shooting with no direction
+
+  if (weapon == 0) {
+    bullets.add(new Bullet(x, y, x + dirX * 10, y + dirY * 10, 10));
+  } else if (weapon == 1) {
+    for (int i = -2; i <= 2; i++) {
+      float spreadX = x + dirX * 10 + i * 5;
+      float spreadY = y + dirY * 10 + i * 5;
+      bullets.add(new Bullet(x, y, spreadX, spreadY, 8));
+    }
+  } else if (weapon == 2) {
+    bullets.add(new Bullet(x, y, x + dirX * 10, y + dirY * 10, 5));
+  }
+
+  shootCooldown = 45; // Example cooldown (frames)
+}
+
 
   void display() {
     pushMatrix();
@@ -175,6 +203,12 @@ void keyPressed() {
   if (key == 'd' || key == 'D') player.right = true;
   if (key == ' ' && !player.dashing) player.startDash();
 
+  // Handle shooting with arrow keys
+  if (keyCode == UP) player.shootUp = true;
+  if (keyCode == DOWN) player.shootDown = true;
+  if (keyCode == LEFT) player.shootLeft = true;
+  if (keyCode == RIGHT) player.shootRight = true;
+
   if (key == 'd' || key == 'D') {
     player.currentHealth = max(0, player.currentHealth - 10);
   }
@@ -189,4 +223,10 @@ void keyReleased() {
   if (key == 's' || key == 'S') player.down = false;
   if (key == 'a' || key == 'A') player.left = false;
   if (key == 'd' || key == 'D') player.right = false;
+
+  // Stop shooting when arrow keys are released
+  if (keyCode == UP) player.shootUp = false;
+  if (keyCode == DOWN) player.shootDown = false;
+  if (keyCode == LEFT) player.shootLeft = false;
+  if (keyCode == RIGHT) player.shootRight = false;
 }

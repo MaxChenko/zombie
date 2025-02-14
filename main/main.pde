@@ -30,6 +30,7 @@ void setup() {
 
 void draw() {
   background(50);
+  player.handleShooting(); //we gotta update our shooting direction
   
   translate(width / 2 - player.x, height / 2 - player.y);
   drawBackgroundGrid();
