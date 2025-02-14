@@ -43,7 +43,7 @@ void draw() {
   } else {
     background(50);
 
-    player.handleShooting(); //we gotta update our shooting direction
+    player.handleShooting();
     spawnZombies(zombies);
     player.move();
     translate(width / 2 - player.x, height / 2 - player.y);
@@ -56,6 +56,8 @@ void draw() {
     player.drawHealthBar(width/2 - 10,-height/2 + width/8,width/4,width/8);
     player.drawCooldownTimer(-width/2 + width/16 + 10,-height/2 + width/16,width/8,width/8);
 
+    shootBullet();
+
     displayItems();
     displayZombies();
     displayCoinCount();
@@ -65,6 +67,25 @@ void draw() {
     }
     frameCounter++;
   }
+}
+
+void shootBullet(){
+  int dirx = 0;
+  int diry = 0;
+
+  if(player.shootUp){
+    diry = 1;
+  }else if(player.shootDown){
+    diry = -1;
+  }
+
+  if(player.shootLeft){
+    dirx = -1;
+  }else if(player.shootRight){
+    dirx = 1;
+  }
+
+  player.shoot(dirx,diry);
 }
 
 void keyPressed() {
@@ -144,7 +165,7 @@ void drawGameOverScreen() {
   text("Press 'R' to restart", width / 2, height / 2);
 }
 
-void spawnZombies(ArrayList<Zombie> zombiesPassed){
+void spawnZombies(ArrayList<Zombie> zombiesPassed) {
   zombiesPassed.add(new Zombie((int)random(500), (int)random(500)));
 }
 
@@ -171,7 +192,6 @@ void baseCollisionLogic() {
 
     if (player.checkCollision(zombie)) {
       player.currentHealth --;
-      
       print("\nPlayer Health: " + player.currentHealth);
     }
   }
@@ -181,16 +201,11 @@ void baseCollisionLogic() {
     player.bullets.get(i).move();
     for (int j = zombies.size() - 1; j >= 0; j--) {
       Zombie zombie = zombies.get(j);
-      if (zombie.health > 0 ) {
-        if (player.checkCollision(zombie)) {
-          player.currentHealth --;
-          
-          print("\nPlayer Health: " + player.currentHealth);
-        }
+      if ( zombie.health > 0 ) {
         if (player.bullets.get(i).checkCollision(zombie)) {
-            zombie.dealDamage(player.bullets.get(i).damage);
-            player.bullets.remove(i); // Correct method to remove an element
-            break;
+          zombie.dealDamage(player.bullets.get(i).damage);
+          player.bullets.remove(i);
+          break;
         } else{
           zombies.remove(j);
           player.coins ++;

@@ -8,6 +8,7 @@ abstract class Enemy extends CircleCollider {
   Enemy(float x, float y, float speed) {
     super("Enemy " + 1,x, y,25);
     this.speed = speed;
+    this.health =10;
   }
 
   void dealDamage(int amount){
