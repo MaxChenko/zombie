@@ -1,3 +1,5 @@
+int playerId = 1;
+
 class Player extends CircleCollider {
   int speed = 4;
   float size = 20;
@@ -29,7 +31,7 @@ class Player extends CircleCollider {
   public int currentHealth = 100;
   
   Player(float x, float y) {
-    super(x, y,20);
+    super("Player " + playerId, x, y,20);
   }
 
   void move() {
@@ -122,9 +124,9 @@ class Player extends CircleCollider {
 }
 
 
-  void display() {
-    pushMatrix();
-    translate(x, y);
+  // void display() {
+  //   pushMatrix();
+  //   translate(x, y);
 
   //   if (dashing) {
   //     scale(1.5, 1);
@@ -218,12 +220,6 @@ void keyPressed() {
   if (keyCode == LEFT) player.shootLeft = true;
   if (keyCode == RIGHT) player.shootRight = true;
 
-  if (key == 'd' || key == 'D') {
-    player.currentHealth = max(0, player.currentHealth - 10);
-  }
-  if (key == 'h' || key == 'H') {
-    player.currentHealth = min(player.playerMaxHealth, player.currentHealth + 10);
-  }
 }
 
 // Handle key release

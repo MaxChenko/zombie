@@ -1,7 +1,9 @@
 abstract class Collider {
+  String name;
   float x, y;
   
-  Collider(float x, float y) {
+  Collider(String name, float x, float y) {
+    this.name = name;
     this.x = x;
     this.y = y;
   }
@@ -12,18 +14,23 @@ abstract class Collider {
 class CircleCollider extends Collider {
   float radius;
   
-  CircleCollider(float x, float y, float radius) {
-    super(x, y);
+  CircleCollider(String name, float x, float y, float radius) {
+    super(name, x, y);
     this.radius = radius;
   }
   
   boolean checkCollision(Collider other) {
+    boolean didCollide = false;
+
     if (other instanceof CircleCollider) {
-      return circleCircleCollision(this, (CircleCollider) other);
+      didCollide = circleCircleCollision(this, (CircleCollider) other);
     } else if (other instanceof SquareCollider) {
-      return circleSquareCollision(this, (SquareCollider) other);
+      didCollide = circleSquareCollision(this, (SquareCollider) other);
     }
-    return false;
+
+    print("\nChecking collision " + this.name + " with " + other.name + " collision is " + didCollide);
+
+    return didCollide;
   }
   
   boolean circleCircleCollision(CircleCollider c1, CircleCollider c2) {
@@ -49,8 +56,8 @@ class CircleCollider extends Collider {
 class SquareCollider extends Collider {
   float size;
   
-  SquareCollider(float x, float y, float size) {
-    super(x, y);
+  SquareCollider(String name,float x, float y, float size) {
+    super(name,x, y);
     this.size = size;
   }
   

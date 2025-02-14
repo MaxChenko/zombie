@@ -1,10 +1,12 @@
+int enemyID = 1;
+
 abstract class Enemy extends CircleCollider {
   int health = 10;
   float speed;
   float size =4;
   
   Enemy(float x, float y, float speed) {
-    super(x, y,25);
+    super("Enemy " + 1,x, y,25);
     this.speed = speed;
   }
 

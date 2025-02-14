@@ -1,3 +1,5 @@
+int bulletID = 1;
+
 class Bullet extends CircleCollider {
     float size = 15;
   float speed;
@@ -5,7 +7,7 @@ class Bullet extends CircleCollider {
   int damage;
 
   Bullet(float x, float y, float targetX, float targetY, int damage) {
-    super(x, y,15);
+    super("Bullet "+ 1,x, y,15);
     this.damage = damage;
     
     // Calculate movement direction

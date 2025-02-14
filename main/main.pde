@@ -14,9 +14,6 @@ int coinAnimationFrame = 0;  // Frame counter for the animation
 color coinAnimationColor;
 ArrayList<Wall> walls;
 
-int damageCoolDown = 100;
-int damageCoolDownCounter = 0;
-
 void setup() {
   size(800, 600);
   items = new ArrayList<Item>();
@@ -48,13 +45,12 @@ void draw() {
     wall.display();
   }
   baseCollisionLogic();
-  damageCoolDownLogic();
   player.drawHealthBar(width/2 - 10,-height/2 + width/8,width/4,width/8);
   player.drawCooldownTimer(-width/2 + width/16 + 10,-height/2 + width/16,width/8,width/8);
 
-  if (frameCounter % spawnInterval == 0) {
-    items.add(new Item(player.x, player.y));
-  }
+  // if (frameCounter % spawnInterval == 0) {
+  //   items.add(new Item(player.x, player.y));
+  // }
   frameCounter++;
 
   // Display all items
@@ -99,64 +95,22 @@ void mousePressed() {
   player.shoot(mouseX, mouseY);
 }
 
-void damageCoolDownLogic(){
-  if (damageCoolDownCounter != 0) {
-    damageCoolDownCounter--;
-  }
-  print("\nDamage Cooldown Counter: " + damageCoolDownCounter);
-}
-
 // Logic for checking collision between bullets and zombies
 // and zombies and player
 void baseCollisionLogic() {
-
-
-
-for (int i = player.bullets.size() - 1; i >= 0; i--) {
-  player.bullets.get(i).display();
-  player.bullets.get(i).move();
-
-
-    for (int j = zombies.size() - 1; j >= 0; j--) {
+      for (int j = zombies.size() - 1; j >= 0; j--) {
             Zombie zombie = zombies.get(j);
-        if (zombie.health > 0 ) {
 
-          if (player.checkCollision(zombie) && damageCoolDownCounter == 0) {
+
+          if (player.checkCollision(zombie)) {
             player.currentHealth --;
-            damageCoolDownCounter = damageCoolDown;
             
             print("\nPlayer Health: " + player.currentHealth);
           }
+      }
 
-
-        if (player.bullets.get(i).checkCollision(zombie)) {
-            zombie.dealDamage(player.bullets.get(i).damage);
-            player.bullets.remove(i); // Correct method to remove an element
-            break;
-        }
-        }else{
-          zombies.remove(j);
-          player.coins ++;
-        }
-
-
-        }
-    }
 }
 
-void startCoinAnimation(Item item) {
-  if (item.type == 0) {
-    // Coin collected
-    coinAnimationText = "+"+item.value;  // Show "+x" when a coin is picked up
-    coinAnimationColor = color(255, 255, 0);
-  } else {
-    // Weapon bought
-    coinAnimationText = "-"+item.value;  // Show "-x" when a weapon is bought
-    coinAnimationColor = color(150, 0, 0);
-  }
-  coinAnimationY = 20;  // Set the starting position for the animation
-  coinAnimationFrame = 0;  // Reset the animation frame
-}
 
 void startCoinAnimation(Item item) {
   if (item.type == 0) {

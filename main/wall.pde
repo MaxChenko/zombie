@@ -1,6 +1,6 @@
 class Wall extends SquareCollider {
   Wall(float x, float y, float size) {
-    super(x, y, size);
+    super("Wall",x, y, size);
   }
 
   void display() {

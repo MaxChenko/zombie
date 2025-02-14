@@ -1,3 +1,5 @@
+int itemId = 1;
+
 class Item extends CircleCollider {
   int type; // 0 for coin, 1 for weapon
   int weaponType;
@@ -6,7 +8,7 @@ class Item extends CircleCollider {
   float size = 20; // Collider size
 
   Item(float playerX, float playerY) {
-    super(random(playerX-400, playerX+400), random(playerY-400, playerY+400),15);
+    super("Item " + itemId,random(playerX-400, playerX+400), random(playerY-400, playerY+400),15);
     x = getX(playerX);
     y = getY(playerY);
 
