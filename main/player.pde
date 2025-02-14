@@ -83,50 +83,50 @@ class Player extends CircleCollider {
   }
 
   void handleShooting() {
-  if (shootCooldown > 0) {
-    shootCooldown--; // Decrease cooldown each frame
-    return; // Prevent shooting while cooling down
+    if (shootCooldown > 0) {
+      shootCooldown--; // Decrease cooldown each frame
+    }
   }
 
   // void display() {
   //   pushMatrix();
   //   translate(x, y);
-  float dirX = 0;
-  float dirY = 0;
+//   float dirX = 0;
+//   float dirY = 0;
 
-  if (shootUp) dirY = -1;
-  if (shootDown) dirY = 1;
-  if (shootLeft) dirX = -1;
-  if (shootRight) dirX = 1;
+//   if (shootUp) dirY = -1;
+//   if (shootDown) dirY = 1;
+//   if (shootLeft) dirX = -1;
+//   if (shootRight) dirX = 1;
 
-  if (dirX != 0 || dirY != 0) {
-    shoot(dirX, dirY);
-  }
-}
+//   if (dirX != 0 || dirY != 0) {
+//     shoot(dirX, dirY);
+//   }
+// }
 
 
   void shoot(float dirX, float dirY) {
-  if (dirX == 0 && dirY == 0) return; // Prevent shooting with no direction
+    if (dirX == 0 && dirY == 0) return; // Prevent shooting with no direction
 
-  if (weapon == 0) {
-    bullets.add(new Bullet(x, y, x + dirX * 10, y + dirY * 10, 10));
-  } else if (weapon == 1) {
-    for (int i = -2; i <= 2; i++) {
-      float spreadX = x + dirX * 10 + i * 5;
-      float spreadY = y + dirY * 10 + i * 5;
-      bullets.add(new Bullet(x, y, spreadX, spreadY, 8));
+    if (weapon == 0) {
+      bullets.add(new Bullet(x, y, x + dirX * 10, y + dirY * 10, 10));
+    } else if (weapon == 1) {
+      for (int i = -2; i <= 2; i++) {
+        float spreadX = x + dirX * 10 + i * 5;
+        float spreadY = y + dirY * 10 + i * 5;
+        bullets.add(new Bullet(x, y, spreadX, spreadY, 8));
+      }
+    } else if (weapon == 2) {
+      bullets.add(new Bullet(x, y, x + dirX * 10, y + dirY * 10, 5));
     }
-  } else if (weapon == 2) {
-    bullets.add(new Bullet(x, y, x + dirX * 10, y + dirY * 10, 5));
+
+    shootCooldown = 45; // Example cooldown (frames)
   }
 
-  shootCooldown = 45; // Example cooldown (frames)
-}
 
-
-  // void display() {
-  //   pushMatrix();
-  //   translate(x, y);
+  void display() {
+    pushMatrix();
+    translate(x, y);
 
     if (dashing) {
       scale(1.5, 1);
@@ -204,22 +204,6 @@ public void drawCooldownTimer(int cooldownX, int cooldownY, int width, int heigh
     text("Ready", x - cooldownX, y - cooldownY);
   }
 }
-}
-
-// Handle key press
-void keyPressed() {
-  if (key == 'w' || key == 'W') player.up = true;
-  if (key == 's' || key == 'S') player.down = true;
-  if (key == 'a' || key == 'A') player.left = true;
-  if (key == 'd' || key == 'D') player.right = true;
-  if (key == ' ' && !player.dashing) player.startDash();
-
-  // Handle shooting with arrow keys
-  if (keyCode == UP) player.shootUp = true;
-  if (keyCode == DOWN) player.shootDown = true;
-  if (keyCode == LEFT) player.shootLeft = true;
-  if (keyCode == RIGHT) player.shootRight = true;
-
 }
 
 // Handle key release

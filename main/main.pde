@@ -53,7 +53,6 @@ void draw() {
       wall.display();
     }
     baseCollisionLogic();
-    damageCoolDownLogic();
     player.drawHealthBar(width/2 - 10,-height/2 + width/8,width/4,width/8);
     player.drawCooldownTimer(-width/2 + width/16 + 10,-height/2 + width/16,width/8,width/8);
 
@@ -64,6 +63,7 @@ void draw() {
     if (player.currentHealth <= 0) {
       isGameOver = true;
     }
+    frameCounter++;
   }
 }
 
@@ -108,24 +108,6 @@ void startGame() {
   walls.add(new Wall(300, 300, 50));
 }
 
-void draw() {
-  background(50);
-  player.handleShooting(); //we gotta update our shooting direction
-  player.move();
-  translate(width / 2 - player.x, height / 2 - player.y);
-  drawBackgroundGrid();
-  player.display();
-  for (Wall wall : walls) {
-    wall.display();
-  }
-  baseCollisionLogic();
-  player.drawHealthBar(width/2 - 10,-height/2 + width/8,width/4,width/8);
-  player.drawCooldownTimer(-width/2 + width/16 + 10,-height/2 + width/16,width/8,width/8);
-
-  // if (frameCounter % spawnInterval == 0) {
-  //   items.add(new Item(player.x, player.y));
-  // }
-  frameCounter++;
 void drawGameStartScreen() {
   background(20, 0, 0); // Dark red/black background
 
@@ -181,30 +163,18 @@ void drawBackgroundGrid() {
   }
 }
 
-void mousePressed() {
-  player.shoot(mouseX, mouseY);
-void damageCoolDownLogic(){
-  if (damageCoolDownCounter != 0) {
-    damageCoolDownCounter--;
-  }
- // print("\nDamage Cooldown Counter: " + damageCoolDownCounter);
-}
-
 // Logic for checking collision between bullets and zombies
 // and zombies and player
 void baseCollisionLogic() {
-      for (int j = zombies.size() - 1; j >= 0; j--) {
-            Zombie zombie = zombies.get(j);
+  for (int j = zombies.size() - 1; j >= 0; j--) {
+    Zombie zombie = zombies.get(j);
 
-
-          if (player.checkCollision(zombie)) {
-            player.currentHealth --;
-            
-            print("\nPlayer Health: " + player.currentHealth);
-          }
-      }
-
-}
+    if (player.checkCollision(zombie)) {
+      player.currentHealth --;
+      
+      print("\nPlayer Health: " + player.currentHealth);
+    }
+  }
 
   for (int i = player.bullets.size() - 1; i >= 0; i--) {
     player.bullets.get(i).display();
@@ -212,9 +182,8 @@ void baseCollisionLogic() {
     for (int j = zombies.size() - 1; j >= 0; j--) {
       Zombie zombie = zombies.get(j);
       if (zombie.health > 0 ) {
-        if (player.checkCollision(zombie) && damageCoolDownCounter == 0) {
+        if (player.checkCollision(zombie)) {
           player.currentHealth --;
-          damageCoolDownCounter = damageCoolDown;
           
           print("\nPlayer Health: " + player.currentHealth);
         }
@@ -257,7 +226,6 @@ void displayItems() {
   if (frameCounter % spawnInterval == 0) {
     items.add(new Item(player.x, player.y));
   }
-  frameCounter++;
 
   // Display all items
   for (int i = items.size() - 1; i >= 0; i--) {
