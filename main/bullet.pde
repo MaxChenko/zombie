@@ -1,7 +1,7 @@
 int bulletID = 1;
 
 class Bullet extends CircleCollider {
-    float size = 15;
+    float size = 16;
   float speed;
   float directionX, directionY;
   int damage;

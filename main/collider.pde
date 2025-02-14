@@ -28,7 +28,7 @@ class CircleCollider extends Collider {
       didCollide = circleSquareCollision(this, (SquareCollider) other);
     }
 
-    print("\nChecking collision " + this.name + " with " + other.name + " collision is " + didCollide);
+    //print("\nChecking collision " + this.name + " with " + other.name + " collision is " + didCollide);
 
     return didCollide;
   }

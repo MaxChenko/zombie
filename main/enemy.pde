@@ -12,6 +12,7 @@ abstract class Enemy extends CircleCollider {
   }
 
   void dealDamage(int amount){
+    print("\ndying");
     health -= amount;
   }
 

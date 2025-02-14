@@ -43,8 +43,10 @@ void draw() {
   } else {
     background(50);
 
+    print("\nwtf "+zombies.size());
+
     player.handleShooting();
-    spawnZombies(zombies);
+    spawnZombies();
     player.move();
     translate(width / 2 - player.x, height / 2 - player.y);
     drawBackgroundGrid();
@@ -74,9 +76,9 @@ void shootBullet(){
   int diry = 0;
 
   if(player.shootUp){
-    diry = 1;
-  }else if(player.shootDown){
     diry = -1;
+  }else if(player.shootDown){
+    diry = 1;
   }
 
   if(player.shootLeft){
@@ -165,8 +167,17 @@ void drawGameOverScreen() {
   text("Press 'R' to restart", width / 2, height / 2);
 }
 
-void spawnZombies(ArrayList<Zombie> zombiesPassed) {
-  zombiesPassed.add(new Zombie((int)random(500), (int)random(500)));
+
+int spawnZombieDelayed = 30;
+void spawnZombies() {
+  if (spawnZombieDelayed < 0 ){
+    zombies.add(new Zombie((int)random(500), (int)random(500)));
+    spawnZombieDelayed = 30;
+  }
+  else{
+    spawnZombieDelayed--;
+  }
+
 }
 
 void drawBackgroundGrid() {
@@ -192,26 +203,20 @@ void baseCollisionLogic() {
 
     if (player.checkCollision(zombie)) {
       player.currentHealth --;
-      print("\nPlayer Health: " + player.currentHealth);
+    }
+
+    if (zombie.health <= 0){
+      zombies.remove(j);
     }
   }
 
-  for (int i = player.bullets.size() - 1; i >= 0; i--) {
+  for (int i = 0; i < player.bullets.size() - 1; i++){
     player.bullets.get(i).display();
-    player.bullets.get(i).move();
-    for (int j = zombies.size() - 1; j >= 0; j--) {
-      Zombie zombie = zombies.get(j);
-      if ( zombie.health > 0 ) {
-        if (player.bullets.get(i).checkCollision(zombie)) {
-          zombie.dealDamage(player.bullets.get(i).damage);
-          player.bullets.remove(i);
-          break;
-        } else{
-          zombies.remove(j);
-          player.coins ++;
+      for (int j = 0; j < zombies.size() - 1; j++) {
+        if(player.bullets.get(i).checkCollision(zombies.get(j))){
+          zombies.get(j).dealDamage(player.bullets.get(i).damage);
         }
       }
-    }
   }
 }
 
