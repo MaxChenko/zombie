@@ -2,7 +2,6 @@
 ArrayList<Item> items;
 ArrayList<Zombie> zombies;
 Player player;
-LargeCock largeCock;
 int spawnInterval = 300;
 int frameCounter = 1;
 int minX, maxX, minY, maxY;
@@ -18,7 +17,6 @@ void setup() {
   size(800, 600);
   items = new ArrayList<Item>();
   player = new Player(500,500);
-  largeCock = new LargeCock(600, 300);
 
   minX = -width;
   maxX = width*2;
@@ -40,7 +38,6 @@ void draw() {
   updateBullets();
   player.drawHealthBar();
   player.drawCooldownTimer();
-  largeCock.update(player);
 
   if (frameCounter % spawnInterval == 0) {
     items.add(new Item(player.x, player.y));
