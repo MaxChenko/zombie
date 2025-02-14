@@ -30,5 +30,4 @@ void moveTowards(int targetX, int targetY) {
 }
 
   abstract void update(int playerX, int playerY);
-  abstract void display();
 }

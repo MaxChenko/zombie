@@ -7,8 +7,6 @@ class Bullet extends CircleCollider {
   Bullet(float x, float y, float targetX, float targetY, int damage) {
     super(x, y,15);
     this.damage = damage;
-
-    print("Spawning Bullet");
     
     // Calculate movement direction
     float diffX = targetX - x;

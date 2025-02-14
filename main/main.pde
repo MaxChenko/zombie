@@ -7,10 +7,13 @@ int spawnInterval = 300;
 int frameCounter = 1;
 int minX, maxX, minY, maxY;
 
+int damageCoolDown = 100;
+int damageCoolDownCounter = 0;
+
 void setup() {
   size(800, 600);
   items = new ArrayList<Item>();
-  player = new Player(500,500);
+  player = new Player(0,0);
   largeCock = new LargeCock(600, 300);
 
   minX = -width;
@@ -25,14 +28,14 @@ void setup() {
 
 void draw() {
   background(50);
-  
+  player.move();
   translate(width / 2 - player.x, height / 2 - player.y);
   drawBackgroundGrid();
-  player.move();
   player.display();
-  updateBullets();
-  player.drawHealthBar();
-  player.drawCooldownTimer();
+  baseCollisionLogic();
+  damageCoolDownLogic();
+  player.drawHealthBar(width/2 - 10,-height/2 + width/8,width/4,width/8);
+  player.drawCooldownTimer(-width/2 + width/16 + 10,-height/2 + width/16,width/8,width/8);
   largeCock.update(player);
 
   if (frameCounter % spawnInterval == 0) {
@@ -58,6 +61,8 @@ void draw() {
 
   // Display the player's coins in the top-left corner
   displayCoinCount();
+
+
 }
 
 void drawBackgroundGrid() {
@@ -79,8 +84,18 @@ void mousePressed() {
   player.shoot(mouseX, mouseY);
 }
 
-// Update loop for bullets
-void updateBullets() {
+void damageCoolDownLogic(){
+  if (damageCoolDownCounter != 0) {
+    damageCoolDownCounter--;
+  }
+  print("\nDamage Cooldown Counter: " + damageCoolDownCounter);
+}
+
+// Logic for checking collision between bullets and zombies
+// and zombies and player
+void baseCollisionLogic() {
+
+
 
 for (int i = player.bullets.size() - 1; i >= 0; i--) {
   player.bullets.get(i).display();
@@ -91,6 +106,14 @@ for (int i = player.bullets.size() - 1; i >= 0; i--) {
             Zombie zombie = zombies.get(j);
         if (zombie.health > 0 ) {
 
+          if (player.checkCollision(zombie) && damageCoolDownCounter == 0) {
+            player.currentHealth --;
+            damageCoolDownCounter = damageCoolDown;
+            
+            print("\nPlayer Health: " + player.currentHealth);
+          }
+
+
         if (player.bullets.get(i).checkCollision(zombie)) {
             zombie.dealDamage(player.bullets.get(i).damage);
             player.bullets.remove(i); // Correct method to remove an element
@@ -98,6 +121,7 @@ for (int i = player.bullets.size() - 1; i >= 0; i--) {
         }
         }else{
           zombies.remove(j);
+          player.coins ++;
         }
 
 

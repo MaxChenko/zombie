@@ -91,31 +91,26 @@ class Player extends CircleCollider {
     }
   }
 
-  void display() {
-    pushMatrix();
-    translate(x, y);
+  // void display() {
+  //   pushMatrix();
+  //   translate(x, y);
 
-    if (dashing) {
-      scale(1.5, 1);
-    }
+  //   if (dashing) {
+  //     scale(1.5, 1);
+  //   }
 
-    fill(0, 0, 255);
-    rect(-10, -15, 20, 25);
+  //   fill(0, 0, 255);
+  //   rect(-10, -15, 20, 25);
 
-    fill(255, 220, 180);
-    ellipse(0, -25, 15, 15);
+  //   fill(255, 220, 180);
+  //   ellipse(0, -25, 15, 15);
 
-    fill(0);
-    rect(-8, 10 + legOffset, 5, 10);
-    rect(3, 10 - legOffset, 5, 10);
+  //   fill(0);
+  //   rect(-8, 10 + legOffset, 5, 10);
+  //   rect(3, 10 - legOffset, 5, 10);
 
-    popMatrix();
-  }
-
-  boolean checkCollision(Collider other) {
-    if (other instanceof Player) return false;
-    return (abs(x - other.x) < size && abs(y - other.y) < size);
-  }
+  //   popMatrix();
+  // }
 
   // Returns false if item is picked up
   boolean pickupItem(Item item) {
@@ -135,34 +130,34 @@ class Player extends CircleCollider {
 
   
 // Health Bar with Curve
-public void drawHealthBar() {
+public void drawHealthBar(int healthBarX, int healthBarY, int width, int height) {
   fill(50);
-  rect(x - 100, y - 80, 150, 50, 25); // Background bar
+  rect(x - healthBarX, y - healthBarY, width, height, 25); // Background bar
   
   fill(255, 0, 0);
-  rect(x - 100, y - 80, 150 * player.playerMaxHealth / (float) player.playerMaxHealth, 50, 25); // Health bar
+  rect(x - healthBarX, y - healthBarY, width * player.currentHealth / (float) player.playerMaxHealth, height, 25); // Health bar
   
   fill(255);
   textSize(16);
   textAlign(CENTER, CENTER);
-  text(int((player.playerMaxHealth / (float) player.playerMaxHealth) * 100) + "%", (x - 100) + 150 / 2, (y - 80) + 50 / 2);
+  text(int((player.currentHealth / (float) player.playerMaxHealth) * 100) + "%", (x - healthBarX) + width / 2, (y - healthBarY) + height / 2);
 }
 
 // Cooldown Timer (Circle Fill)
-public void drawCooldownTimer() {
+public void drawCooldownTimer(int cooldownX, int cooldownY, int width, int height) {
   fill(80);
-  ellipse(x-150, y-80, 60, 60); // Background circle
+  ellipse(x-cooldownX, y-cooldownY, width,height); // Background circle
   
   fill(0, 150, 255, 150);
-  arc(x-150, y-80, 60, 60, -HALF_PI, -HALF_PI + TWO_PI * player.cooldownTimer, PIE);
+  arc(x-cooldownX, y-cooldownY,width,height, -HALF_PI, -HALF_PI + TWO_PI * player.cooldownTimer, PIE);
   
   fill(255);
   textSize(14);
   textAlign(CENTER, CENTER);
   if (!player.canDash) {
-    text(nf((player.cooldownTimer * (1 - player.cooldownTimer)), 0, 1) + "s", width - 150, height - 80);
+    text(nf((player.cooldownTimer * (1 - player.cooldownTimer)), 0, 1) + "s", width - cooldownX, height - cooldownY);
   } else {
-    text("Ready", x - 150, y - 80);
+    text("Ready", x - cooldownX, y - cooldownY);
   }
 }
 }
